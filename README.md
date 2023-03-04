@@ -1,1 +1,1 @@
-# new-reddit
+# reddit
