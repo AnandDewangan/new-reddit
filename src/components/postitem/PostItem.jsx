@@ -4,25 +4,33 @@ import { useAuth0 } from "@auth0/auth0-react";
 function PostItem(props) {
   const {title, upvote, image, user, subreddit, comment_count} = props.post;
   const { isAuthenticated } = useAuth0();
-  const [boolean,setBoolean]=useState(false);
+  const [like,setLike]=useState(false);
+  const [dislike, setDislike]=useState(false);
  const [vote,setVote]=useState(upvote);
    
      
     const upClicked=()=>{
        setVote(vote+1);
-        setBoolean(true);
+       setLike(true);
+       setDislike(false);
     }
     const downClicked=()=>{
+     if(vote <= 0){
+      setDislike(true);
+      setLike(false);
+     }
+     else{
       setVote(vote-1);
-      setBoolean(true);
-
+      setDislike(true);
+      setLike(false);
+     }
   }
   return (
     <div className="post">
        <div className="post__left">
-       <button className='up' onClick={upClicked} disabled={boolean || !isAuthenticated}><i className="fas fa-caret-up"></i> </button>
+       <button className='up' onClick={upClicked} disabled={like || !isAuthenticated}><i className="fas fa-caret-up"></i> </button>
         <span>{vote}</span>
-        <button className='up' onClick={downClicked} disabled={boolean || !isAuthenticated}>  <i className="fas fa-caret-down"></i></button>
+        <button className='up' onClick={downClicked} disabled={dislike || !isAuthenticated}>  <i className="fas fa-caret-down"></i></button>
        </div>
        <div className="post__center">
           <img src={image} alt="img"/>
